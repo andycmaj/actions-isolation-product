@@ -24,4 +24,4 @@ jobs:
           workflow_id: deploy
           ref: $GITHUB_REF
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: 63b62dd0fe5a8cf0659453aa5d7747f046e3a923
