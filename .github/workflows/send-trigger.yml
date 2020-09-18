@@ -7,21 +7,20 @@ on:
 
 env:
   ACTIONS_STEP_DEBUG: true
+  WORKFLOW_ID: 2631041
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: octokit/request-action@v2.x
-        id: send-trigger-to-automation-repo
-        with:
-          route: POST /repos/:repository/actions/workflows/:workflow_id/dispatches
-          repository: andycmaj/actions-isolation-automation
-          mediaType: | # The | is significant!
-            previews: 
-              - antiope
-          workflow_id: deploy
-          ref: $GITHUB_REF
-        env:
-          GITHUB_TOKEN: 63b62dd0fe5a8cf0659453aa5d7747f046e3a923
+      - name: send trigger
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/andycmaj/actions-isolation-automation/actions/workflows/${ WORKFLOW_ID }/dispatches \
+            -d '{"ref":"${ GITHUB_REF }"}'
+
+
