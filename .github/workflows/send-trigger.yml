@@ -1,0 +1,25 @@
+name: send-trigger
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  ACTIONS_STEP_DEBUG: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: send-trigger-to-automation-repo
+        with:
+          route: POST /repos/:repository/actions/workflows/:workflow_id/dispatches
+          repository: andycmaj/actions-isolation-automation
+          accept: application/vnd.github.v3+json
+          workflow_id: deploy
+          ref: $GITHUB_REF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
