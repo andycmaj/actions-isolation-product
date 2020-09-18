@@ -25,4 +25,6 @@ jobs:
             -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
             https://api.github.com/repos/andycmaj/actions-isolation-automation/actions/workflows/$WORKFLOW_ID/dispatches \
             -d '{"ref":"dev","inputs":{"ref":"${GITHUB_REF}"}}'
-
+      - name: send safe trigger
+        run: |
+          curl https://github-trigger-proxy.netlify.app/.netlify/functions/index?ref=$GITHUB_REF
