@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - test
 
 env:
   ACTIONS_STEP_DEBUG: true
@@ -14,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # outer "ref" is the ref on the automation branch to run the workflow from
+      # inner "inputs.ref" is the ref on THIS repo to check out 
       - name: send trigger
         run: |
           curl \
@@ -22,5 +25,4 @@ jobs:
             -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
             https://api.github.com/repos/andycmaj/actions-isolation-automation/actions/workflows/$WORKFLOW_ID/dispatches \
             -d '{"ref":"dev","inputs":{"ref":"${GITHUB_REF}"}}'
-
 
