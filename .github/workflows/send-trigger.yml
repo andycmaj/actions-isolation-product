@@ -18,7 +18,9 @@ jobs:
         with:
           route: POST /repos/:repository/actions/workflows/:workflow_id/dispatches
           repository: andycmaj/actions-isolation-automation
-          accept: application/vnd.github.v3+json
+          mediaType: | # The | is significant!
+            previews: 
+              - antiope
           workflow_id: deploy
           ref: $GITHUB_REF
         env:
